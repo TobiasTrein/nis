@@ -1,0 +1,36 @@
+services:
+  db:
+    image: mysql:9.0
+    restart: on-failure:3
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+
+  db_init:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    command: ["php", "/var/www/html/db_init.php"]
+    restart: "no" 
+    
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4500:80"
+    volumes:
+      - ./www:/var/www/html/
+    depends_on:
+      - db
+      - db_init 
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8080:80"
+    volumes:
+      - ./uploads.ini:/usr/local/etc/php/conf.d/php-phpmyadmin.ini
