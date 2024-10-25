@@ -4,13 +4,19 @@ services:
     restart: on-failure:3
     environment:
       - MYSQL_ROOT_PASSWORD=root
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p'root'"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
 
   db_init:
     build:
       context: .
       dockerfile: Dockerfile
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     command: ["php", "/var/www/html/db_init.php"]
     restart: "no" 
     
