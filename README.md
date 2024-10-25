@@ -7,7 +7,7 @@ Para rodar, apenas execute:
 docker-compose up --build
 ```
 
-Aguarde a instalação das dependências e inicialização do banco de dados. Após concluído, acesse:
+Aguarde a instalação das dependências e inicialização do banco de dados. Pode demorar um pouco, mas é necessário para facilitar a execução e não precisar configurar nada manualmente. Após concluído, acesse:
 
 ```
 http://localhost:4500/nis/user
